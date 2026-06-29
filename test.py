@@ -1,4 +1,7 @@
 import re
+from importlib.metadata import version
+import tiktoken
+print("tiktoken version:", version("tiktoken"))
 
 class SimpleTokenizerV1:
     def __init__(self, vocab):
@@ -61,6 +64,4 @@ print(text)
 # text = """"It's the last he painted, you know," Mrs. Gisburn said with pardonable pride."""
 ids = tokenizer.encode(text)
 print(tokenizer.decode(ids))
-
-
-# print(ids)
+print(ids)
