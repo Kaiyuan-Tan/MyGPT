@@ -20,18 +20,3 @@ class GPTDatasetV1(Dataset):
     
     def __getitem__(self, idx):
         return self.input_ids[idx], self.target_ids[idx]
-    
-def create_dataloader_v1(txt, batch_size=4, max_length=256, stride=128, shuffle=True, drop_last=True):
-    tokenizer = tiktoken.get_encoding("gpt2") #A 
-    dataset = GPTDatasetV1(txt, tokenizer, max_length, stride) #B
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last)
-    return dataloader
-
-with open("the-verdict.txt", "r", encoding="utf-8") as f: # read text file
-    raw_text = f.read()
-
-dataloader = create_dataloader_v1(raw_text, batch_size=8, max_length=4, stride=4, shuffle=False)
-data_iter = iter(dataloader)
-inputs, targets = next(data_iter)
-print("Inputs:\n", inputs)
-print("\nTargets:\n", targets)
