@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from single_head_attention import CausalAttention
+from model.sha import CausalAttention
 
 class MultiHeadAttentionWrapper(nn.Module):
     def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
@@ -62,21 +62,21 @@ class MultiHeadAttention(nn.Module):
 #     [0.77, 0.25, 0.10], # one     6 (x^5)
 #     [0.05, 0.80, 0.55]] # step     (x^6)
 # )
-batch_size = 2
-num_tokens = 6
-d_model = 768
+# batch_size = 2
+# num_tokens = 6
+# d_model = 768
 
-batch = torch.randn(batch_size, num_tokens, d_model)
+# batch = torch.randn(batch_size, num_tokens, d_model)
 
 
-torch.manual_seed(123)
+# torch.manual_seed(123)
 
-# batch = torch.stack((inputs, inputs), dim=0)
-batch_size, context_length, d_in = batch.shape
-d_out = d_in
+# # batch = torch.stack((inputs, inputs), dim=0)
+# batch_size, context_length, d_in = batch.shape
+# d_out = d_in
 
-mha = MultiHeadAttention(d_in, d_out, context_length, 0.0, num_heads=12)
-context_vecs = mha(batch)
+# mha = MultiHeadAttention(d_in, d_out, context_length, 0.0, num_heads=12)
+# context_vecs = mha(batch)
 
-print(context_vecs)
-print("context_vecs.shape:", context_vecs.shape)
+# print(context_vecs)
+# print("context_vecs.shape:", context_vecs.shape)

@@ -1,67 +1,45 @@
-import re
-from importlib.metadata import version
-import tiktoken
-print("tiktoken version:", version("tiktoken"))
+import torch
+import torch.nn as nn
+from model.GELU import FeedForward
+from model.GELU import GELU
+from model.residual import ExampleDeepNeuralNetwork
+from config.GPT_CONFIG_124M import GPT_CONFIG_124M
+from model.block import TransformerBlock
 
-class SimpleTokenizerV1:
-    def __init__(self, vocab):
-        self.str_to_int = vocab #A
-        self.int_to_str = {i:s for s,i in vocab.items()} #B
+# ffn = FeedForward(GPT_CONFIG_124M)
+# x = torch.rand(2, 3, 768)
+# out = ffn(x)
+# print(out.shape)
+
+layer_sizes = [3, 3, 3, 3, 3, 1] 
+sample_input = torch.tensor([[1., 0., -1.]])
+torch.manual_seed(123)
+# model1 = ExampleDeepNeuralNetwork(layer_sizes, use_shortcut=False)
+# model2 = ExampleDeepNeuralNetwork(layer_sizes, use_shortcut=True)
+
+def print_gradients(model, x):
+    model.zero_grad()
+    # Forward pass
+    output = model(x)
+    target = torch.tensor([[0.]])
+ 
+    # Calculate loss based on how close the target
+    # and output are
+    loss = nn.MSELoss()
+    loss = loss(output, target)
     
-    def encode(self, text):
-        preprocessed = re.split(r'([,.?_!"()\']|--|\s)', text)
-        preprocessed = [item.strip() for item in preprocessed if item.strip()]
-        
-        ids = [self.str_to_int[s] for s in preprocessed]
-        return ids
-    
-    def decode(self, ids):
-        text = " ".join([self.int_to_str[i] for i in ids]) 
-        text = re.sub(r'\s+([,.?!"()\'])', r'\1', text) #E
-        return text
+    # Backward pass to calculate the gradients
+    loss.backward()
+ 
+    for name, param in model.named_parameters():
+        if 'weight' in name:
+            # Print the mean absolute gradient of the weights
+            print(f"{name} has gradient mean of {param.grad.abs().mean().item()}")
 
-class SimpleTokenizerV2:
-    def __init__(self, vocab):
-        self.str_to_int = vocab #A
-        self.int_to_str = {i:s for s,i in vocab.items()} #B
-    
-    def encode(self, text):
-        preprocessed = re.split(r'([,.?_!"()\']|--|\s)', text)
-        preprocessed = [item.strip() for item in preprocessed if item.strip()]
-        preprocessed = [item if item in self.str_to_int else "<|unk|>" for item in preprocessed]
-        
-        ids = [self.str_to_int[s] for s in preprocessed]
-        return ids
-    
-    def decode(self, ids):
-        text = " ".join([self.int_to_str[i] for i in ids]) 
-        text = re.sub(r'\s+([,.?!"()\'])', r'\1', text) #E
-        return text
-    
+# print_gradients(model2, sample_input)
 
-with open("the-verdict.txt", "r", encoding="utf-8") as f: # read text file
-    raw_text = f.read()
-print("Total number of character:", len(raw_text))
-
-preprocessed = re.split(r'([,.?_!"()\']|--|\s)', raw_text) # regular expression
-preprocessed = [item.strip() for item in preprocessed if item.strip()]
-
-all_words = sorted(list(set(preprocessed)))
-all_words.extend(["<|endoftext|>", "<|unk|>"])
-vocab = {token:integer for integer,token in enumerate(all_words)}
-
-# for i, item in enumerate(list(vocab.items())[-5:]):
-#     print(item)
-
-# print(len(vocab.items()))
-
-tokenizer = SimpleTokenizerV2(vocab)
-
-text1 = "Hello, do you like tea?"
-text2 = "In the sunlit terraces of the palace."
-text = " <|endoftext|> ".join((text1, text2))
-print(text)
-# text = """"It's the last he painted, you know," Mrs. Gisburn said with pardonable pride."""
-ids = tokenizer.encode(text)
-print(tokenizer.decode(ids))
-print(ids)
+x = torch.rand(2, 4, 768)  #A
+block = TransformerBlock(GPT_CONFIG_124M)
+output = block(x)
+print("Input shape:", x.shape)
+print("Output shape:", output.shape)
