@@ -1,0 +1,6 @@
+
+# Model checkpoints
+checkpoints/
+*.pth
+*.pt
+*.ckpt
