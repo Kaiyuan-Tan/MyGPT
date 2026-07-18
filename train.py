@@ -4,6 +4,7 @@ from textloader import create_dataloader_v1
 from config.GPT_CONFIG_124M_SHORT import GPT_CONFIG_124M
 from model.GPTModel import GPTModel
 from trainer import train_model_simple, plot_losses
+from pathlib import Path
 
 tokenizer = tiktoken.get_encoding("gpt2")
 
@@ -55,5 +56,13 @@ train_losses, val_losses, tokens_seen = train_model_simple(
     start_context="Every effort moves you"
 )
 
-epochs_tensor = torch.linspace(0, num_epochs, len(train_losses))
-plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
+save_dir = Path("checkpoints")
+save_dir.mkdir(parents=True, exist_ok=True)
+
+model_path = save_dir / "gpt2.pth"
+torch.save(model.state_dict(), model_path)
+
+print(f"Model saved to: {model_path}")
+
+# epochs_tensor = torch.linspace(0, num_epochs, len(train_losses))
+# plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
