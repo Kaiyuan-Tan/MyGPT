@@ -1,6 +1,7 @@
 
 # Model checkpoints
 checkpoints/
+gpt2/
 *.pth
 *.pt
 *.ckpt

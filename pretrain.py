@@ -31,7 +31,7 @@ tokenizer = tiktoken.get_encoding("gpt2")
 # torch.manual_seed(123)
 token_ids = generate(
     model=gpt,
-    idx=text_to_token_ids("Hello world", tokenizer),
+    idx=text_to_token_ids("Thank you GPT", tokenizer),
     max_new_tokens=25,
     context_size=NEW_CONFIG["context_length"],
     top_k=50,
