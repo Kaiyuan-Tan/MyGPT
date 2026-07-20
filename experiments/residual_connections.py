@@ -1,4 +1,4 @@
-from model.GELU import GELU
+from model.feed_forward import GELU
 import torch
 import torch.nn as nn
 

@@ -1,8 +1,7 @@
 import torch
 import torch.nn as nn
-import tiktoken
-from model.block import TransformerBlock
-from model.layernorm import LayerNorm
+from model.layer_norm import LayerNorm
+from model.transformer_block import TransformerBlock
 
 class GPTModel(nn.Module):
     def __init__(self, cfg):

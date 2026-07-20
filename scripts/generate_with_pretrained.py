@@ -1,11 +1,12 @@
 import torch
-import urllib.request
-from load.gpt_download import download_and_load_gpt2
-from config.GPT_CONFIG_124M import model_configs, GPT_CONFIG_124M
-from model.GPTModel import GPTModel
-from load.load_weights import load_weights_into_gpt
 import tiktoken
-from text_generation import generate, text_to_token_ids, token_ids_to_text
+from pathlib import Path
+
+from config.gpt2_124m import GPT_CONFIG_124M, model_configs
+from inference.text_generation import generate, text_to_token_ids, token_ids_to_text
+from model.gpt_model import GPTModel
+from pretrained.gpt2_download import download_and_load_gpt2
+from pretrained.weight_loader import load_weights_into_gpt
 
 
 # url = (
@@ -16,7 +17,11 @@ from text_generation import generate, text_to_token_ids, token_ids_to_text
 # filename = url.split('/')[-1]
 # urllib.request.urlretrieve(url, filename)
 
-settings, params = download_and_load_gpt2(model_size="124M", models_dir="gpt2")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+settings, params = download_and_load_gpt2(
+    model_size="124M",
+    models_dir=PROJECT_ROOT / "gpt2",
+)
 
 model_name = "gpt2-small (124M)"
 NEW_CONFIG = GPT_CONFIG_124M.copy()

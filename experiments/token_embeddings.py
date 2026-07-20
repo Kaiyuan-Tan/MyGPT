@@ -1,7 +1,9 @@
 import torch
 import tiktoken
-from textloader import GPTDatasetV1
+from pathlib import Path
 from torch.utils.data import DataLoader
+
+from training.data_loader import GPTDatasetV1
 
 size = 50257
 dim = 256
@@ -19,7 +21,8 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256, stride=128, shuffle=
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last)
     return dataloader
 
-with open("the-verdict.txt", "r", encoding="utf-8") as f: # read text file
+data_path = Path(__file__).resolve().parents[1] / "data" / "the_verdict.txt"
+with data_path.open("r", encoding="utf-8") as f: # read text file
     raw_text = f.read()
 
 dataloader = create_dataloader_v1(raw_text, batch_size=8, max_length=max_length, stride=max_length, shuffle=False)

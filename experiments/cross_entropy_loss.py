@@ -1,8 +1,8 @@
 import torch
-from model.GPTModel import GPTModel
-from config.GPT_CONFIG_124M_SHORT import GPT_CONFIG_124M
-from text_generation import generate_text_simple, text_to_token_ids, token_ids_to_text
 import tiktoken
+
+from config.gpt2_124m_short import GPT_CONFIG_124M
+from model.gpt_model import GPTModel
 
 
 inputs = torch.tensor([[16833, 3626, 6100],     # ["every effort moves",
