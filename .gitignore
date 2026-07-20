@@ -1,7 +1,11 @@
-
 # Model checkpoints
 checkpoints/
 gpt2/
 *.pth
 *.pt
 *.ckpt
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.venv/

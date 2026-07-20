@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from model.sha import CausalAttention
+from model.self_attention import CausalAttention
 
 class MultiHeadAttentionWrapper(nn.Module):
     def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):

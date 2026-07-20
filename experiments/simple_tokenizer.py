@@ -1,6 +1,7 @@
 import re
 from importlib.metadata import version
 import tiktoken
+from pathlib import Path
 print("tiktoken version:", version("tiktoken"))
 
 class SimpleTokenizerV1:
@@ -39,7 +40,8 @@ class SimpleTokenizerV2:
         return text
     
 
-with open("the-verdict.txt", "r", encoding="utf-8") as f: # read text file
+data_path = Path(__file__).resolve().parents[1] / "data" / "the_verdict.txt"
+with data_path.open("r", encoding="utf-8") as f: # read text file
     raw_text = f.read()
 print("Total number of character:", len(raw_text))
 

@@ -1,8 +1,7 @@
-import torch
 import torch.nn as nn
-from model.layernorm import LayerNorm
-from model.mha import MultiHeadAttention
-from model.GELU import FeedForward
+from model.feed_forward import FeedForward
+from model.layer_norm import LayerNorm
+from model.multi_head_attention import MultiHeadAttention
 
 class TransformerBlock(nn.Module):
     def __init__(self, cfg):

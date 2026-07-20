@@ -1,14 +1,16 @@
 import tiktoken
 import torch
-from textloader import create_dataloader_v1
-from config.GPT_CONFIG_124M_SHORT import GPT_CONFIG_124M
-from model.GPTModel import GPTModel
-from trainer import train_model_simple, plot_losses
 from pathlib import Path
+
+from config.gpt2_124m_short import GPT_CONFIG_124M
+from model.gpt_model import GPTModel
+from training.data_loader import create_dataloader_v1
+from training.trainer import train_model_simple
 
 tokenizer = tiktoken.get_encoding("gpt2")
 
-file_path = "the-verdict.txt"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+file_path = PROJECT_ROOT / "data" / "the_verdict.txt"
 with open(file_path, "r", encoding="utf-8") as file:
     text_data = file.read()
 
@@ -56,7 +58,7 @@ train_losses, val_losses, tokens_seen = train_model_simple(
     start_context="Every effort moves you"
 )
 
-save_dir = Path("checkpoints")
+save_dir = PROJECT_ROOT / "checkpoints"
 save_dir.mkdir(parents=True, exist_ok=True)
 
 model_path = save_dir / "gpt2.pth"

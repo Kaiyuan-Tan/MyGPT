@@ -1,5 +1,5 @@
-from loss import calc_loss_batch, calc_loss_loader
-from text_generation import generate_text_simple, text_to_token_ids, token_ids_to_text
+from inference.text_generation import generate_text_simple, text_to_token_ids, token_ids_to_text
+from training.loss import calc_loss_batch, calc_loss_loader
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt

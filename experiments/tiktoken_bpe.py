@@ -1,12 +1,12 @@
-import re
-from importlib.metadata import version
 import tiktoken
+from pathlib import Path
 
 
 tokenizer = tiktoken.get_encoding("gpt2")
 # text = "Hello, do you like tea? <|endoftext|> In the sunlit terraces of some"
 # text = "HE he his her she Hi hi hello He Her, ALBBHSSDDaomcoewo, someunknownPlace, some unknow Place"
-with open("the-verdict.txt", "r", encoding="utf-8") as f: # read text file
+data_path = Path(__file__).resolve().parents[1] / "data" / "the_verdict.txt"
+with data_path.open("r", encoding="utf-8") as f: # read text file
     raw_text = f.read()
 
 enc_text = tokenizer.encode(raw_text)

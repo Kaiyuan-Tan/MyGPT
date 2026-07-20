@@ -1,14 +1,10 @@
 import torch
 import torch.nn as nn
-from model.GELU import FeedForward
-from model.GELU import GELU
-from model.residual import ExampleDeepNeuralNetwork
-# from config.GPT_CONFIG_124M import GPT_CONFIG_124M
-from config.GPT_CONFIG_124M_SHORT import GPT_CONFIG_124M
-from model.block import TransformerBlock
 import tiktoken
-from model.GPTModel import GPTModel
-from text_generation import generate_text_simple, text_to_token_ids, token_ids_to_text
+
+from config.gpt2_124m_short import GPT_CONFIG_124M
+from inference.text_generation import generate_text_simple, text_to_token_ids, token_ids_to_text
+from model.gpt_model import GPTModel
 
 ##################################################
 
